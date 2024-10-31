@@ -1,0 +1,73 @@
+
+								p gina: 1 
+
+ Listado Fuente: pr3ej3d.LST
+ Programa Fuente en: pr3ej3d.ASM
+ Fecha: Tue Jul 25 19:00:26 2023
+
+ ÚDir.ÚCodigo maquina	 Linea¿	ÚCodigo en lenguaje ensamble
+
+			      1	HAND EQU 40h
+			      2	
+			      3	ORG 1000h
+ 1000 49 4E 47 52 45 53	      4	MSJ DB "INGRESE UN CARACTER"
+ 1006 45 20 55 4E 20 43
+ 100C 41 52 41 43 54 45
+ 1012 52
+ 1013 49		      5	FIN DB ?
+			      6	
+			      7	ORG 1500h
+ 1500 49		      8	CAR DB ?
+ 1501 49		      9	TER DB ?
+			     10	
+			     11	ORG 2000h
+ 2000 B1 05		     12	MOV CL,5
+ 2002 B2 05		     13	MOV DL,5
+ 2004 BB 00 10		     14	MOV BX,OFFSET MSJ
+ 2007 B0 13		     15	MOV AL,OFFSET FIN-OFFSET MSJ
+ 2009 CD 07		     16	INT 7
+ 200B BB 00 15		     17	REPITE:MOV BX,OFFSET CAR
+ 200E CD 06		     18	INT 6
+ 2010 FE CA		     19	DEC DL
+ 2012 75 F7		     20	JNZ REPITE
+ 2014 E4 41		     21	IN AL,HAND+1
+ 2016 80 E0 7F		     22	AND AL,07Fh
+ 2019 E6 41		     23	OUT HAND+1,AL
+ 201B E4 41		     24	POLL:IN AL,HAND+1
+ 201D 80 E0 01		     25	AND AL,1
+ 2020 75 F9		     26	JNZ POLL
+ 2022 8A 07		     27	MOV AL,[BX]
+ 2024 E6 40		     28	OUT HAND,AL
+ 2026 FF C3		     29	INC BX
+ 2028 FE C9		     30	DEC CL
+ 202A 75 EF		     31	JNZ POLL
+ 202C E4 41		     32	POLL2:IN AL,HAND+1
+ 202E 80 E0 01		     33	AND AL,1
+ 2031 75 F9		     34	JNZ POLL2
+ 2033 8A 07		     35	MOV AL,[BX]
+ 2035 E6 40		     36	OUT HAND,AL
+ 2037 FF CB		     37	DEC BX
+ 2039 FE C1		     38	INC CL
+ 203B 80 F9 05		     39	CMP CL,5
+ 203E 75 EC		     40	JNZ POLL2
+ 2040 CD 00		     41	INT 0
+			     42	END
+
+
+ S I M B O L O S:
+
+ Nombre:	Tipo:		Valor:
+
+ HAND    	Number		  40h
+ MSJ     	Byte		1000h
+ FIN     	Byte		1013h
+ CAR     	Byte		1500h
+
+
+
+								p gina: 2 
+
+ TER     	Byte		1501h	No usado
+ REPITE  	Label		200Bh
+ POLL    	Label		201Bh
+ POLL2   	Label		202Ch
